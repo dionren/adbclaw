@@ -1,61 +1,71 @@
-import { architectureSteps } from '../../data/content'
+import { architectureSteps, agentWorkflow } from '../../data/content'
 
 export default function HowItWorks() {
   return (
-    <section className="border-y border-gray-800/50 bg-surface-900/30 py-24">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-white">How It Works</h2>
-          <p className="mx-auto max-w-2xl text-gray-400">
-            AI agent commands flow through ADB Claw, which translates them into stealthy device operations using the real hardware input path.
+    <section className="relative py-28">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-surface-950 via-surface-900/20 to-surface-950" />
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-stone-800/50 to-transparent" />
+      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-stone-800/50 to-transparent" />
+
+      <div className="relative mx-auto max-w-6xl px-6">
+        <div className="mb-16">
+          <span className="inline-block mb-4 text-[11px] font-mono uppercase tracking-[0.2em] text-amber-500/60">
+            Architecture
+          </span>
+          <h2 className="text-3xl font-display font-bold tracking-tight text-stone-100 sm:text-4xl">
+            How it works
+          </h2>
+          <p className="mt-4 max-w-xl text-stone-500 leading-relaxed">
+            Commands flow from AI agent through adbclaw to the device. Every response is structured JSON.
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-4">
+        {/* Architecture pipeline */}
+        <div className="grid gap-3 md:grid-cols-4 mb-20">
           {architectureSteps.map((step, i) => (
-            <div key={step.label} className="relative flex flex-col items-center">
+            <div key={step.label} className="relative group">
+              {/* Connector arrow */}
               {i < architectureSteps.length - 1 && (
-                <div className="absolute top-10 left-[calc(50%+2rem)] right-[calc(-50%+2rem)] hidden h-px bg-gradient-to-r from-brand-500/50 to-brand-500/10 md:block" />
+                <div className="absolute top-1/2 -right-3 z-10 hidden md:block">
+                  <svg className="w-6 h-6 text-amber-500/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                  </svg>
+                </div>
               )}
-              <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-2xl border border-gray-800 bg-surface-900 text-2xl font-bold text-brand-400">
-                {i + 1}
+
+              <div className="h-full rounded-xl border border-stone-800/60 bg-surface-900/40 p-5 transition-all duration-300 hover:border-amber-500/20">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-500/10 text-sm font-mono font-bold text-amber-500/80">
+                    {i + 1}
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-semibold text-stone-200 font-display">{step.label}</h3>
+                    <span className="text-[11px] font-mono text-stone-600">{step.sublabel}</span>
+                  </div>
+                </div>
+                <p className="text-xs leading-relaxed text-stone-500">{step.description}</p>
               </div>
-              <h3 className="mb-1 text-lg font-semibold text-white">{step.label}</h3>
-              <span className="mb-3 text-xs font-medium text-brand-400">{step.sublabel}</span>
-              <p className="text-center text-sm text-gray-400">{step.description}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-16 rounded-xl border border-gray-800 bg-surface-900/50 p-6">
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-500">Input Injection Levels</h3>
-          <div className="grid gap-4 md:grid-cols-3">
-            {[
-              {
-                level: 'Level 1 — sendevent',
-                stealth: 'High',
-                color: 'text-green-400',
-                desc: 'Real hardware input path. Genuine device ID, real touch source, custom pressure & area. No root required.',
-              },
-              {
-                level: 'Level 2 — UHID',
-                stealth: 'High',
-                color: 'text-green-400',
-                desc: 'scrcpy UHID mode for keyboard and mouse input with real device identity. No root required.',
-              },
-              {
-                level: 'Level 3 — adb input',
-                stealth: 'Low',
-                color: 'text-yellow-400',
-                desc: 'Standard adb shell input — fast but easily detectable. Fallback for simple scenarios.',
-              },
-            ].map((item) => (
-              <div key={item.level} className="rounded-lg border border-gray-800 bg-surface-900 p-4">
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-200">{item.level}</span>
-                  <span className={`text-xs font-medium ${item.color}`}>{item.stealth} stealth</span>
-                </div>
-                <p className="text-xs leading-relaxed text-gray-500">{item.desc}</p>
+        {/* Agent workflow */}
+        <div className="rounded-xl border border-stone-800/60 bg-surface-900/30 overflow-hidden">
+          <div className="px-6 py-4 border-b border-stone-800/40">
+            <h3 className="text-[11px] font-mono uppercase tracking-[0.2em] text-amber-500/60">
+              Recommended Agent Loop
+            </h3>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4">
+            {agentWorkflow.map((item, i) => (
+              <div
+                key={item.step}
+                className={`p-6 ${i < agentWorkflow.length - 1 ? 'lg:border-r border-b lg:border-b-0 border-stone-800/30' : ''}`}
+              >
+                <span className="block mb-3 text-2xl font-display font-bold text-amber-500/20">{item.step}</span>
+                <h4 className="mb-1.5 text-sm font-semibold text-stone-200 font-display">{item.action}</h4>
+                <p className="text-xs leading-relaxed text-stone-500">{item.detail}</p>
               </div>
             ))}
           </div>

@@ -7,7 +7,7 @@ import Footer from './components/sections/Footer'
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-surface-950 noise">
       <Hero />
       <Features />
       <HowItWorks />
